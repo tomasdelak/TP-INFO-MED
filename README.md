@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./Marca-ITBA-Color-ALTA.png" alt="Portada del trabajo" width="400"/>
+  <img src="./imagenes/Marca-ITBA-Color-ALTA.png" alt="Portada del trabajo" width="400"/>
 </p>
 
 

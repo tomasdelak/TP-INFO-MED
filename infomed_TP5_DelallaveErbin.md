@@ -88,11 +88,10 @@ Acorde a su clasificación funcional, es una base de datos transaccional, ya que
 
 Todas las entidades cuentan con su propio **id** como clave primaria para poder identificarlas inequívocamente.
 
-> La base de datos está normalizada.
 
 
 
-![Diagrama entidad-relación de la base de datos](imagenes/TP4_infomed_DER.png)
+![Diagrama entidad-relación de la base de datos](imagenes/der_infomed.png)
 
 
 
@@ -100,7 +99,14 @@ Todas las entidades cuentan con su propio **id** como clave primaria para poder 
 ### Consigna 3
 
 
-![Modelo entidad relacion](imagenes/TP4_infomed_Lógico.png)
+![Modelo entidad relacion](imagenes/logico_infomed.png)
+
+
+
+### Consigna 4
+
+La base de datos está normalizada.
+
 
 
 

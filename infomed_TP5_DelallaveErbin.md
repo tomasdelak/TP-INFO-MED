@@ -105,7 +105,7 @@ Todas las entidades cuentan con su propio **id** como clave primaria para poder 
 
 ### Consigna 4
 
-La base de datos está normalizada.
+La base de datos está normalizada porque cumple con las tres primeras formas normales: todos los atributos son atómicos y están correctamente descompuestos (1FN), cada atributo depende completamente de la clave primaria de su tabla (2FN) y no existen dependencias transitivas entre atributos no clave (3FN).
 
 
 

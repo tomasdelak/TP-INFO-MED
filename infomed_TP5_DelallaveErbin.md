@@ -315,6 +315,7 @@ WHERE id_medico = 3
 SELECT p.nombre, c.fecha, c.diagnostico
 FROM consultas c
 JOIN pacientes p ON c.id_paciente = p.id_paciente
+-- NO ES NECESARIO UTILIZAR RIGHT O LEFT JOIN PORQUE AL FILTRAR POR FECHA EN LA TABLA DE CONSULTAS (CON WHERE) ESTOY ELIMINANDO LOS PACIENTES QUE NO HAYAN REALIZADO CONSULTAS EN ESE PERIODO
 WHERE c.fecha >= '2024-08-01'
   AND c.fecha < '2024-09-01'
 ORDER BY c.fecha;
@@ -343,12 +344,11 @@ ORDER BY veces_prescripto DESC;
 
 ```sql
 
-SELECT COUNT(*) AS total_recetas, p.id_paciente AS id_paciente, p.nombre
+SELECT p.nombre, COUNT(*) AS total_recetas
 FROM recetas r
 JOIN pacientes p ON r.id_paciente = p.id_paciente
-GROUP BY p.id_paciente, p.nombre
+GROUP BY p.nombre
 ORDER BY total_recetas DESC;
-
 ```
 
 ![Resultado Query 13](imagenes/query_13.png)
@@ -372,14 +372,18 @@ LIMIT 1;
 
 ```sql
 
-SELECT p.nombre, c.fecha, c.diagnostico 
-from consultas c
-join pacientes p on c.id_paciente = p.id_paciente
-where c.fecha = (
-  select max(c2.fecha)
-  from consultas c2
-  where c2.id_paciente = c.id_paciente
-);
+SELECT 
+  p.nombre, 
+  c.fecha, 
+  c.diagnostico
+FROM pacientes p
+LEFT JOIN consultas c ON c.id_paciente = p.id_paciente
+  AND c.fecha = (
+    SELECT MAX(c2.fecha)
+    FROM consultas c2
+    WHERE c2.id_paciente = p.id_paciente
+  )
+ORDER BY p.nombre;
 
 ```
 
@@ -390,15 +394,14 @@ where c.fecha = (
 ```sql
 
 SELECT 
-  m.nombre as nombre_medico,
-  p.nombre as nombre_paciente,
-  count(*) as total_consultas
- 
- from consultas c
- join medicos m on c.id_medico = m.id_medico
- join pacientes p on c.id_paciente = p.id_paciente
- group by m.nombre, p.nombre
- order by m.nombre;
+  m.nombre AS nombre_medico,
+  p.nombre AS nombre_paciente,
+  COUNT(c.id_consulta) AS total_consultas
+FROM medicos m
+LEFT JOIN consultas c ON m.id_medico = c.id_medico
+LEFT JOIN pacientes p ON c.id_paciente = p.id_paciente
+GROUP BY m.nombre, p.nombre
+ORDER BY m.nombre;
 
 ```
  
@@ -431,15 +434,12 @@ SELECT
 ```sql
 
 SELECT 
-  doc.nombre as nombre_medico,
-  count(*) as total_pacientes
- 
- from consultas c
- 
- join medicos doc on c.id_medico = doc.id_medico
- 
- group by doc.nombre
- order by total_pacientes DESC;
+  m.nombre AS nombre_medico,
+  COUNT(DISTINCT c.id_paciente) AS total_pacientes
+FROM medicos m
+LEFT JOIN consultas c ON m.id_medico = c.id_medico
+GROUP BY m.nombre
+ORDER BY total_pacientes DESC;
 
 ```
  
